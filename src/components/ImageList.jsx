@@ -5,7 +5,7 @@ export default class ImageList extends Component {
   render() {
     return (
       <div className="image-list">
-        {this.props.images.map(image => <ImageItem image={image} key={image.title}/>)}
+        {this.props.creatures.map(creature => <ImageItem image={creature} key={creature.title}/>)}
       </div>
     )
   }
