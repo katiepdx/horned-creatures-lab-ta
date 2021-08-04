@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 
 export default class ImageItem extends Component {
   render() {
+    const { image } = this.props
     return (
-      <img src={this.props.image.url} alt={this.props.image.title}/>
+      <img src={image.url} alt={image.title}/>
     )
   }
 }
