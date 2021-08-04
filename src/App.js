@@ -8,12 +8,11 @@ import creaturesData from './data/creatures-data';
 class App extends Component {
    state = {
     creatures: creaturesData,
-    filter: 'All',
+    horns: 'All',
     keyword: 'All'
   }
 
-  handleFilterChange = (e) => this.setState({ filter: e.target.value})
-  handleKeywordChange = (e) => this.setState({ keyword: e.target.value})
+  handleChange = (({target}, filter) => this.setState({ [filter]: target.value}))
 
   getDropdownOptions = (data, filter) => {
     const optionsArr = data.map(item => item[filter])
@@ -24,19 +23,21 @@ class App extends Component {
   }
 
   render() {
-    const horns = this.getDropdownOptions(this.state.creatures, 'horns')
-    const keywords = this.getDropdownOptions(this.state.creatures, 'keyword')
+    const { creatures, horns, keyword } = this.state
 
-    const filteredCreatures = this.state.creatures.filter((creature) => 
-    (this.state.filter === 'All' || Number(this.state.filter) === creature.horns) && 
-    (this.state.keyword === 'All' || this.state.keyword === creature.keyword))
+    const hornOptions = this.getDropdownOptions(creatures, 'horns')
+    const keywordOptions = this.getDropdownOptions(creatures, 'keyword')
+
+    const filteredCreatures = creatures.filter((creature) => 
+    (horns === 'All' || Number(horns) === creature.horns) && 
+    (keyword === 'All' || keyword === creature.keyword))
 
     return (
       <div className="App">
           <Header/>
 
-          <Dropdown options={horns} onChange={this.handleFilterChange}/>
-          <Dropdown options={keywords} onChange={this.handleKeywordChange}/>
+          <Dropdown options={hornOptions} onChange={(e) => this.handleChange(e,'horns')}/>
+          <Dropdown options={keywordOptions} onChange={(e) => this.handleChange(e, 'keyword')}/>
 
           <ImageList creatures={filteredCreatures}/>
       </div>
