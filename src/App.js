@@ -12,17 +12,21 @@ class App extends Component {
     keyword: 'All'
   }
 
-  handleFilterChange = (e) => {
-    this.setState({ filter: e.target.value})
-  }
-  handleKeywordChange = (e) => {
-    this.setState({ keyword: e.target.value})
+  handleFilterChange = (e) => this.setState({ filter: e.target.value})
+  handleKeywordChange = (e) => this.setState({ keyword: e.target.value})
+
+  getDropdownOptions = (data, filter) => {
+    const optionsArr = data.map(item => item[filter])
+    const removeDuplicates = new Set(optionsArr)
+    const dropdownOptionsArr = Array.from(removeDuplicates)
+    
+    return ['All', ...dropdownOptionsArr]
   }
 
   render() {
-    const horns = ['All', 1, 2, 3, 100]
-    const keywords = ['All', 'narwhal', 'rhino', 'unicorn', 'unilego', 'triceratops', 'markhor', 'mouflon', 'addax', 'chameleon', 'lizard', 'dragon']
- 
+    const horns = this.getDropdownOptions(this.state.creatures, 'horns')
+    const keywords = this.getDropdownOptions(this.state.creatures, 'keyword')
+
     const filteredCreatures = this.state.creatures.filter((creature) => 
     (this.state.filter === 'All' || Number(this.state.filter) === creature.horns) && 
     (this.state.keyword === 'All' || this.state.keyword === creature.keyword))
